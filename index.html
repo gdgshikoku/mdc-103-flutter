@@ -1,0 +1,637 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>MDC-103 Flutter: Material Theming with Color, Shape, Elevation, and Type</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="mdc-103-flutter"
+                  title="MDC-103 Flutter: Material Theming with Color, Shape, Elevation, and Type"
+                  environment="web"
+                  feedback-link="https://twitter.com/tatsuhama50">
+    
+      <google-codelab-step label="はじめに" duration="0">
+        <p>マテリアル コンポーネント (MDC) は、開発者がマテリアル デザインを実装するのに役立ちます。 Google のエンジニアと UX デザイナーのチームによって作成された MDC は、多数の美しく機能的な UI コンポーネントを備えており、Android、iOS、ウェブ、および Flutter.material.io/develop で利用できます。</p>
+<p>MDC を使用して、アプリの独自のスタイルをこれまで以上にカスタマイズできるようになりました。 Material Design の最近の拡張により、デザイナーや開発者は製品のブランドをより柔軟に表現できるようになりました。</p>
+<p>コードラボ MDC-101 と MDC-102 では、Material Components (MDC) を使用して、Shrine というアプリの基本を作成しました。Shrine は、衣料品や家庭用品を販売する e コマース アプリです。 このアプリには、ログイン画面から始まり、製品を表示するホーム画面にユーザーを誘導するユーザー フローが含まれています。</p>
+<h2 is-upgraded><strong>構築するもの</strong></h2>
+<p>この Codelab では、以下を使用して Shrine アプリをカスタマイズします。</p>
+<ul>
+<li>Color</li>
+<li>Typography</li>
+<li>Elevation</li>
+<li>Shape</li>
+<li>Layout</li>
+</ul>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Android</p>
+</td><td colspan="1" rowspan="1"><p>iOS</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 298.00px" src="img/f1a32e95be474626.png"></p>
+</td><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 298.00px" src="img/1398edbc96107f59.png"></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 298.00px" src="img/e5106e0d95d15a93.png"></p>
+</td><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 298.00px" src="img/d203e13476857cda.png"></p>
+</td></tr>
+</table>
+<aside class="special"><table>
+<tr><td colspan="1" rowspan="1"><p>これは、Shrine というプロダクト用のアプリの作成をガイドする 4 つの Codelab の 3 つ目です。</p>
+<p>すべての Codelab は、タスクを段階的に進めながら順番に実行することをお勧めします。関連する Codelab は次の場所にあります。</p>
+<ul>
+<li><a href="https://codelabs.developers.google.com/codelabs/mdc-101-flutter" target="_blank">MDC-101 フラッター: マテリアル コンポーネント (MDC) の基本</a></li>
+<li><a href="https://codelabs.developers.google.com/codelabs/mdc-102-flutter" target="_blank">MDC-102 Flutter: マテリアルの構造とレイアウト</a></li>
+<li><a href="https://codelabs.developers.google.com/codelabs/mdc-104-flutter" target="_blank">MDC-104 Flutter: マテリアルの高度なコンポーネント</a></li>
+</ul>
+</td><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 290.00px" src="img/91be5f7919ab5154.png"></p>
+</td></tr>
+</table>
+</aside>
+<h2 is-upgraded><strong>この Codelab の MDC-Flutter コンポーネントとサブシステム</strong></h2>
+<ul>
+<li>Themes</li>
+<li>Typography</li>
+<li>Elevation</li>
+<li>Image list</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Flutter 開発環境をセットアップする" duration="0">
+        <p>このラボを完了するには、<a href="https://docs.flutter.dev/get-started/install" target="_blank">Flutter SDK</a> と<a href="https://docs.flutter.dev/get-started/editor" target="_blank">エディタ</a>の 2 つのソフトウェアが必要です。</p>
+<p>次のいずれかのデバイスを使用して Codelab を実行できます。</p>
+<ul>
+<li>コンピューターに接続され、開発者モードに設定されている物理的な <a href="https://docs.flutter.dev/get-started/install/macos#android-setup" target="_blank">Android</a> または <a href="https://docs.flutter.dev/get-started/install/macos#deploy-to-ios-devices" target="_blank">iOS</a> デバイス。</li>
+<li><a href="https://docs.flutter.dev/get-started/install/macos#set-up-the-ios-simulator" target="_blank">iOS シミュレーター</a> (Xcode ツールのインストールが必要)。</li>
+<li><a href="https://docs.flutter.dev/get-started/install/macos#set-up-the-android-emulator" target="_blank">Android Emulator</a> (Android Studio でのセットアップが必要)。</li>
+<li>ブラウザー (デバッグには Chrome が必要です)。</li>
+<li><a href="https://docs.flutter.dev/get-started/install/windows#windows-setup" target="_blank">Windows</a>、<a href="https://docs.flutter.dev/get-started/install/linux#linux-setup" target="_blank">Linux</a>、または <a href="https://docs.flutter.dev/get-started/install/macos#macos-setup" target="_blank">macOS</a> デスクトップ アプリケーションとして。 展開する予定のプラットフォームで開発する必要があります。 そのため、Windows デスクトップ アプリを開発する場合は、適切なビルド チェーンにアクセスするために Windows で開発する必要があります。 <a href="https://docs.flutter.dev/desktop" target="_blank">docs.flutter.dev/desktop</a> で詳しく説明されているオペレーティング システム固有の要件があります。</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Codelab スターター アプリをダウンロードする" duration="0">
+        <h2 is-upgraded><br><strong>MDC-101の続き？</strong></h2>
+<p>MDC-101 を完了している場合は、コードをこの Codelab 用に準備する必要があります。 </p>
+<p>手順にスキップ: トップ アプリ バーを追加します。</p>
+<h2 is-upgraded><strong>ゼロから始める？</strong></h2>
+<p><br>Zip ダウンロード or Git Clone のどちらかの方法でダウンロードを行って下さい。</p>
+<h2 is-upgraded><strong>Zip ダウンロード</strong></h2>
+<p><a href="https://github.com/material-components/material-components-flutter-codelabs/archive/103-starter_and_102-complete.zip" target="_blank">Download starter project</a></p>
+<p>スターター プロジェクトは、material-components-flutter-codelabs-103-starter_and_102-complete/mdc_100_series ディレクトリにあります。</p>
+<h2 is-upgraded><strong>GitHub からクローンする</strong></h2>
+<p>GitHub からこの Codelab のクローンを作成するには、次のコマンドを実行します。</p>
+<pre>git clone https://github.com/material-components/material-components-flutter-codelabs.git
+cd material-components-flutter-codelabs/mdc_100_series
+git checkout 103-starter_and_102-complete</pre>
+<aside class="warning"><p>さらにヘルプが必要な場合: <a href="https://help.github.com/articles/cloning-a-repository/" target="_blank">GitHub からリポジトリを複製する</a></p>
+</aside>
+<aside class="special"><p><strong>ブランチについて</strong></p>
+<p>Codelabs MDC-101 から 104 は、相互に連続して構築されます。 つまり、102 のコードが完成すると、103 のスターター コードになります。 コードはさまざまなブランチに分割されており、次のコマンドですべてを一覧表示できます。</p>
+<p>git branch --list</p>
+<p>完成したコードを確認するには、104-starter_and_103-complete ブランチをチェックアウトしてください。</p>
+</aside>
+<h2 is-upgraded><strong>プロジェクトを開いてアプリを実行する</strong></h2>
+<ol type="1" start="1">
+<li>選択したエディターでプロジェクトを開きます。</li>
+<li><a href="https://docs.flutter.dev/get-started/test-drive" target="_blank">Get Started: Test drive</a> の「Run the app」の指示に従って、選択したエディターを使用します。</li>
+</ol>
+<p>成功！ 以前の Codelab の Shrine ログイン ページがデバイスに表示されます。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Android</p>
+</td><td colspan="1" rowspan="1"><p>iOS</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 298.00px" src="img/77c93e89ac594afe.png"></p>
+</td><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 298.00px" src="img/679775b6deb65c3f.png"></p>
+</td></tr>
+</table>
+<p>[次へ] をクリックして、前の Codelab のホームページを表示します。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Android</p>
+</td><td colspan="1" rowspan="1"><p>iOS</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 298.00px" src="img/fbcd57adfd411b47.png"></p>
+</td><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 298.00px" src="img/d73070b0003d35cb.png"></p>
+</td></tr>
+</table>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="色を変更する" duration="0">
+        <p>Shrine ブランドを表す配色が作成されました。デザイナーは、Shrine アプリ全体でその配色を実装することを望んでいます。</p>
+<p>まず、これらの色をプロジェクトにインポートしましょう。</p>
+<h2 is-upgraded><strong>colors.dart を作成する</strong></h2>
+<p><strong>colors.dart</strong> という新しいファイルを <strong>lib</strong> フォルダに作成します。 マテリアル コンポーネントをインポートし、const Color 値を追加します。</p>
+<pre>import &#39;package:flutter/material.dart&#39;;
+
+const kShrinePink50 = Color(0xFFFEEAE6);
+const kShrinePink100 = Color(0xFFFEDBD0);
+const kShrinePink300 = Color(0xFFFBB8AC);
+const kShrinePink400 = Color(0xFFEAA4A4);
+
+const kShrineBrown900 = Color(0xFF442B2D);
+
+const kShrineErrorRed = Color(0xFFC5032B);
+
+const kShrineSurfaceWhite = Color(0xFFFFFBFA);
+const kShrineBackgroundWhite = Colors.white;</pre>
+<h2 is-upgraded><strong>カスタム カラー パレット</strong></h2>
+<p>このカラー テーマは、カスタム カラーを使用してデザイナーによって作成されました (下の画像を参照)。 これには、Shrine のブランドから選択された色が含まれており、Material Theme Editor に適用され、より充実したパレットを作成するために拡張されています。 (これらの色は、<a href="https://material.io/design/color/the-color-system.html#tools-for-picking-colors" target="_blank">2014 のマテリアル カラー パレット</a>からのものではありません。)</p>
+<p>Material Theme Editor は、各色のラベル 50、100、200、.... 900 を含む、数値でラベル付けされた色合いにそれらを整理しました。 シュラインは、ピンク色の見本の 50、100、および 300 と、茶色の見本の色 900 のみを使用します。</p>
+<p class="image-container"><img style="width: 624.00px" src="img/b9170eb94fd3b106.jpeg"></p>
+<p class="image-container"><img style="width: 624.00px" src="img/f8b4b97f898f154e.png"></p>
+<p>ウィジェットの各色付きパラメーターは、これらのスキームの色にマップされます。 たとえば、アクティブに入力を受け取っているときのテキスト フィールドの装飾の色は、テーマのプライマリ カラーにする必要があります。 その色にアクセスできない (背景に対して見やすい) 場合は、代わりに PrimaryVariant を使用します。</p>
+<aside class="special"><p><strong>色</strong></p>
+<p><strong>kShrineBackgroundWhite</strong> の値は、Colors クラスから取得されます。 このクラスには、白などの一般的な色の値があります。 また、<a href="https://material.io/design/color/the-color-system.html#tools-for-picking-colors" target="_blank">2014 年のカラー パレット</a>が MaterialColor クラスとして含まれています。</p>
+<p><strong>素材色</strong></p>
+<p>「material/colors.dart」にある <strong>MaterialColor</strong> クラス (<strong>ColorSwatch</strong> のサブクラス) は、赤、緑、薄緑、またはライムの 14 階調など、原色の 14 以下のバリエーションのグループです。 これらのバリエーションは、塗料店で見つけたグラデーション カラー チップに似ています。</p>
+</aside>
+<p>これらのバリエーションは 2014 マテリアル ガイドライン用に作成されたもので、現在のガイドライン (<a href="https://codelabs.developers.google.com/codelabs/mdc-103-flutter#3:~:text=Color%20System%20article" target="_blank">カラー システムの記事</a>) と MDC-Flutter の両方で引き続き利用できます。コードでそれらにアクセスするには、ベース カラーを呼び出してから、シェード (通常は 100 の値) を呼び出します。たとえば、Pink 400 は次のコマンドで取得されます: <strong>Colors.pink[400]</strong>。</p>
+<p>これらのパレットをデザインやコードに使用しても問題ありません。ブランディングに固有の色が既にある場合は、<a href="https://material.io/tools/color/" target="_blank">パレット生成ツール</a>または<a href="https://material.io/tools/theme-editor/" target="_blank">マテリアル テーマ エディター</a>を使用して、独自の調和のとれたパレットを生成できます。</p>
+<p>使用したい色ができたので、それらを UI に適用できます。これを行うには、ウィジェット階層の最上位にある MaterialApp インスタンスに適用する <strong>ThemeData</strong> ウィジェットの値を設定します。</p>
+<h2 is-upgraded><strong>ThemeData.light() をカスタマイズする</strong></h2>
+<p>Flutter には、いくつかの組み込みテーマが含まれています。ライト テーマはその 1 つです。 ThemeData ウィジェットを最初から作成するのではなく、ライト テーマをコピーして値を変更し、アプリ用にカスタマイズします。</p>
+<p><strong>color.dart</strong> を <strong>app.dart</strong> にインポートしましょう。</p>
+<pre>import &#39;colors.dart&#39;;</pre>
+<p>次に、ShrineApp クラスのスコープ外の app.dart に次を追加します。</p>
+<pre>// TODO: Build a Shrine Theme (103)
+final ThemeData _kShrineTheme = _buildShrineTheme();
+
+ThemeData _buildShrineTheme() {
+  final ThemeData base = ThemeData.light();
+  return base.copyWith(
+    colorScheme: base.colorScheme.copyWith(
+      primary: kShrinePink100,
+      onPrimary: kShrineBrown900,
+      secondary: kShrineBrown900,
+      error: kShrineErrorRed,
+    ),
+    // TODO: Add the text themes (103)
+    // TODO: Add the icon themes (103)
+    // TODO: Decorate the inputs (103)
+  );
+}</pre>
+<p>次に、<strong>theme</strong>: を設定します。ShrineApp の <strong>build()</strong> 関数 (MaterialApp ウィジェット内) の最後に新しいテーマを設定します。</p>
+<pre>  // TODO: Add a theme (103)
+  theme: _kShrineTheme, // New code</pre>
+<aside class="special"><p><strong>ThemeData インスタンスのコピー</strong></p>
+<p>デフォルトのライト ThemeData で <strong>copyWith()</strong> を呼び出し、いくつかのカスタム プロパティ値を渡しました (<strong>copyWith()</strong> は、Flutter の多くのクラスとウィジェットで見られる一般的なメソッドです)。 このコマンドは、呼び出されたインスタンスと一致するウィジェットのインスタンスを返しますが、指定された値は置き換えられます。</p>
+<p>ThemeData インスタンスをインスタンス化してから、そのプロパティを設定しないのはなぜですか? 我々は出来た！ アプリの構築を続ければ、それは理にかなっています。 ThemeData には多数のプロパティがあるため、時間を節約するために魅力的なテーマから始めて、コードラボで確認できる値を変更します。 後で別のテーマを試すときは、MDC-Flutter に含まれる別の ThemeData から始めます。</p>
+<p><a href="https://api.flutter.dev/flutter/material/ThemeData-class.html" target="_blank">Flutter のドキュメント</a>で ThemeData の詳細を確認してください。</p>
+</aside>
+<p>プロジェクトを保存します。 ログイン画面は次のようになります。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Android</p>
+</td><td colspan="1" rowspan="1"><p>iOS</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 298.00px" src="img/e268b7623afafb6e.png"></p>
+</td><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 298.00px" src="img/656fb3e25b0dad48.png"></p>
+</td></tr>
+</table>
+<p>ホーム画面は次のようになります。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Android</p>
+</td><td colspan="1" rowspan="1"><p>iOS</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 298.00px" src="img/27ceebfb79439256.png"></p>
+</td><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 298.00px" src="img/fb402431e663251d.png"></p>
+</td></tr>
+</table>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="タイポグラフィとラベルのスタイルを変更する" duration="0">
+        <p>色の変更に加えて、デザイナーは使用する特定のタイポグラフィも提供してくれました。 Flutter の ThemeData には 3 つのテキスト テーマが含まれています。 各テキスト テーマは、「見出し」や「タイトル」などのテキスト スタイルのコレクションです。 アプリにいくつかのスタイルを使用し、いくつかの値を変更します。</p>
+<h2 is-upgraded><strong>テキストテーマをカスタマイズする</strong></h2>
+<p>プロジェクトにフォントをインポートするには、それらを pubspec.yaml ファイルに追加する必要があります。</p>
+<p>pubspec.yaml で、<strong>flutter</strong>: タグの直後に次を追加します。</p>
+<pre>  # TODO: Insert Fonts (103)
+  fonts:
+    - family: Rubik
+      fonts:
+        - asset: fonts/Rubik-Regular.ttf
+        - asset: fonts/Rubik-Medium.ttf
+          weight: 500
+</pre>
+<p>これで、Rubik フォントにアクセスして使用できるようになりました。</p>
+<h2 is-upgraded><strong>pubspec ファイルのトラブルシューティング</strong></h2>
+<p>上記の宣言をカット アンド ペーストすると、<strong>pub get</strong> の実行中にエラーが発生する場合があります。 エラーが発生した場合は、最初に先頭の空白を削除し、2 スペースのインデントを使用してスペースに置き換えます。 (前に 2 つのスペース</p>
+<pre>fonts:</pre>
+<p>、前に 4 つのスペース</p>
+<pre>family: Rubik</pre>
+<p>、 等々。）</p>
+<p>Mapping values are not allowed here と表示された場合は、問題のある行のインデントとその上の行のインデントを確認してください。</p>
+<p><strong>login.dart</strong> で、<strong>Column()</strong> 内で次のように変更します。</p>
+<pre>Column(
+  children: &lt;Widget&gt;[
+    Image.asset(&#39;assets/diamond.png&#39;),
+    const SizedBox(height: 16.0),
+    Text(
+      &#39;SHRINE&#39;,
+      style: Theme.of(context).textTheme.headline5,
+    ),
+  ],
+)</pre>
+<p><strong>app.dart</strong> で、<strong>_buildShrineTheme()</strong> の後に次を追加します。</p>
+<pre>// TODO: Build a Shrine Text Theme (103)
+TextTheme _buildShrineTextTheme(TextTheme base) {
+  return base.copyWith(
+    headline5: base.headline5!.copyWith(
+      fontWeight: FontWeight.w500,
+    ),
+    headline6: base.headline6!.copyWith(
+      fontSize: 18.0,
+    ),
+    caption: base.caption!.copyWith(
+      fontWeight: FontWeight.w400,
+      fontSize: 14.0,
+    ),
+    bodyText1: base.bodyText1!.copyWith(
+      fontWeight: FontWeight.w500,
+      fontSize: 16.0,
+    ),
+  ).apply(
+    fontFamily: &#39;Rubik&#39;,
+    displayColor: kShrineBrown900,
+    bodyColor: kShrineBrown900,
+  );
+}</pre>
+<p>これは <strong>TextTheme</strong> を受け取り、見出し、タイトル、およびキャプションの外観を変更します。</p>
+<p>このように <strong>fontFamily</strong> を適用すると、<strong>copyWith() </strong>で指定されたタイポグラフィ スケール値 (見出し、タイトル、キャプション) のみに変更が適用されます。</p>
+<p>一部のフォントでは、カスタムの fontWeight を 100 単位で設定しています。w500 (500 ウェイト) はミディアムに対応し、w400 は通常に対応します。</p>
+<h2 is-upgraded>新しいテキスト テーマを使用する</h2>
+<aside class="special"><p><strong>テキストテーマ</strong></p>
+<p>テキスト テーマは、アプリ内のすべてのテキストを一貫して読みやすくするための便利な方法です。 たとえば、テーマの原色の明るさに応じて、テキスト テーマのスタイルを黒または白にすることができます。 これにより、テキストが背景と適切なコントラストを持つようになり、常に読みやすくなります。</p>
+<p>TextTheme の詳細については、<a href="https://api.flutter.dev/flutter/material/TextTheme-class.html" target="_blank">Flutter のドキュメント</a>をご覧ください。</p>
+</aside>
+<p>エラーの後、次のテーマを _buildShrineTheme に追加します。</p>
+<pre>// TODO: Add the text themes (103)
+textTheme: _buildShrineTextTheme(base.textTheme),
+textSelectionTheme: const TextSelectionThemeData(
+  selectionColor: kShrinePink100,
+),</pre>
+<p>プロジェクトを保存します。 今回は、フォントを変更したため、アプリも再起動します (<a href="https://docs.flutter.dev/development/tools/hot-reload" target="_blank">ホット リスタート</a>と呼ばれます)。</p>
+<aside class="special"><p>タイポグラフィに関する注意事項:</p>
+<ul>
+<li>小さい文字や本文に使用するテキスト フォントを選択するときは、特定のスタイルではなく、明確なフォントを選択します。</li>
+<li>大きな文字やタイトルに使用される表示フォントは、ブランドを表現または強調するために使用する必要があります。</li>
+</ul>
+</aside>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Android</p>
+</td><td colspan="1" rowspan="1"><p>iOS</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 298.00px" src="img/495475d92228d34c.png"></p>
+</td><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 298.00px" src="img/3f6f051728dd3c47.png"></p>
+</td></tr>
+</table>
+<p>ログイン画面とホーム画面のテキストは異なって表示されます。一部のテキストは Rubik フォントを使用し、その他のテキストは黒または白ではなく茶色で表示されます。 アイコンも茶色でレンダリングされます。</p>
+<h2 is-upgraded><strong>テキストを縮小する</strong></h2>
+<p>ラベルが少し大きすぎます。</p>
+<p><strong>home.dart </strong>で、最も内側の Column の <strong>children</strong>: を変更します。</p>
+<pre>// TODO: Change innermost Column (103)
+children: &lt;Widget&gt;[
+// TODO: Handle overflowing labels (103)
+  Text(
+    product.name,
+    style: theme.textTheme.button,
+    softWrap: false,
+    overflow: TextOverflow.ellipsis,
+    maxLines: 1,
+  ),
+  const SizedBox(height: 4.0),
+  Text(
+    formatter.format(product.price),
+    style: theme.textTheme.caption,
+  ),
+  // End new code
+],</pre>
+<h2 is-upgraded><strong>テキストを中央に配置して下寄せに配置する</strong></h2>
+<p>ラベルを中央に配置し、テキストを各画像の下部ではなく、各カードの下部に揃えます。</p>
+<p>ラベルを主軸の最後 (下) に移動し、中央に配置するように変更します::</p>
+<p>プロジェクトを保存します。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Android</p>
+</td><td colspan="1" rowspan="1"><p>iOS</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 298.00px" src="img/83b9383788024d3f.png"></p>
+</td><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 298.00px" src="img/bc430499eb63d641.png"></p>
+</td></tr>
+</table>
+<p>それははるかに良く見えます。</p>
+<h2 is-upgraded><strong>テキスト フィールドのテーマを設定する</strong></h2>
+<p><strong>InputDecorationTheme</strong> を使用してテキスト フィールドの装飾をテーマにすることもできます。</p>
+<p><strong>app.dart</strong> の <strong>_buildShrineTheme()</strong> メソッドで、<strong>inputDecorationTheme</strong>: 値を指定します。</p>
+<pre>// TODO: Decorate the inputs (103)
+inputDecorationTheme: const InputDecorationTheme(
+  border: OutlineInputBorder(),
+),</pre>
+<p>現在、テキスト フィールドの装飾には <strong>filled</strong> が使われています。 それを取り除きましょう。 <strong>filled </strong>を削除して <strong>inputDecorationTheme</strong> を指定すると、テキスト フィールドにアウトライン スタイルが適用されます。</p>
+<p><strong>login.dart</strong> で、<strong>filled: true</strong> 値を削除します。</p>
+<pre>// Remove filled: true values (103)
+TextField(
+  controller: _usernameController,
+  decoration: const InputDecoration(
+    // Removed filled: true
+    labelText: &#39;Username&#39;,
+  ),
+),
+const SizedBox(height: 12.0),
+TextField(
+  controller: _passwordController,
+  decoration: const InputDecoration(
+    // Removed filled: true
+    labelText: &#39;Password&#39;,
+  ),
+  obscureText: true,
+),</pre>
+<p>ホットリスタート。 [ユーザー名] フィールドがアクティブなとき (入力中) のログイン画面は次のようになります。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Android</p>
+</td><td colspan="1" rowspan="1"><p>iOS</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 298.00px" src="img/a671dc9d61e33e10.png"></p>
+</td><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 298.00px" src="img/127a1e7257ce08f.png"></p>
+</td></tr>
+</table>
+<p>テキスト フィールドに入力します。境界線とフローティング ラベルは原色で表示されます。 しかし、私たちはそれを簡単には見ることができません。 色のコントラストが十分に高くないピクセルを区別するのに問題がある人にはアクセスできません。 (詳細については、マテリアル ガイドラインの<a href="https://material.io/design/color/" target="_blank">色の記事</a>の「アクセシブルな色」を参照してください。)</p>
+<p><strong>app.dart</strong> で、<strong>inputDecorationTheme:</strong> の下に <strong>focusedBorder:</strong> を指定します。</p>
+<pre>// TODO: Decorate the inputs (103)
+inputDecorationTheme: const InputDecorationTheme(
+  border: OutlineInputBorder(),
+  focusedBorder: OutlineInputBorder(
+    borderSide: BorderSide(
+      width: 2.0,
+      color: kShrineBrown900,
+    ),
+  ),
+),</pre>
+<p>次に、<strong>inputDecorationTheme</strong>: の下に <strong>floatingLabelStyle</strong>: を指定します。</p>
+<pre>// TODO: Decorate the inputs (103)
+inputDecorationTheme: const InputDecorationTheme(
+  border: OutlineInputBorder(),
+  focusedBorder: OutlineInputBorder(
+    borderSide: BorderSide(
+      width: 2.0,
+      color: kShrineBrown900,
+    ),
+  ),
+  floatingLabelStyle: TextStyle(
+    color: kShrineBrown900,
+  ),
+),</pre>
+<p>最後に、[キャンセル] ボタンでプライマリ カラーではなくセカンダリ カラーを使用して、コントラストを高めます。</p>
+<pre>TextButton(
+  child: const Text(&#39;CANCEL&#39;),
+  onPressed: () {
+    _usernameController.clear();
+    _passwordController.clear();
+  },
+  style: TextButton.styleFrom(
+    primary: Theme.of(context).colorScheme.secondary,
+  ),
+),</pre>
+<p>プロジェクトを保存します。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Android</p>
+</td><td colspan="1" rowspan="1"><p>iOS</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 298.00px" src="img/f1a32e95be474626.png"></p>
+</td><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 298.00px" src="img/f5af26f3a79a31e2.png"></p>
+</td></tr>
+</table>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="高さを調整する" duration="0">
+        <p>アプリに一致する特定の色とタイポグラフィでページのスタイルを設定したので、標高を調整しましょう。</p>
+<h2 is-upgraded>NEXT ボタンの高さを変える</h2>
+<p><strong>ElevatedButton</strong> のデフォルトの高さは 2 です。さらに高くしましょう。</p>
+<p><strong>login.dart</strong> で、NEXT の ElevatedButton に <strong>style</strong>: 値を追加します。</p>
+<pre>ElevatedButton(
+  child: const Text(&#39;NEXT&#39;),
+  onPressed: () {
+    Navigator.pop(context);
+  },
+  style: ElevatedButton.styleFrom(
+    elevation: 8.0,
+  ),
+),</pre>
+<p>プロジェクトを保存します。</p>
+<h2 is-upgraded><strong>カードの高さを調整する</strong></h2>
+<p>現在、カードはサイトのナビゲーションの横の白い表面に置かれています。</p>
+<p><strong>home.dart</strong> で、<strong>elevation</strong>: 値を Cards: に追加します。</p>
+<pre>// TODO: Adjust card heights (103)
+elevation: 0.0,</pre>
+<p>プロジェクトを保存します。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Android</p>
+</td><td colspan="1" rowspan="1"><p>iOS</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 298.00px" src="img/a2471d9ba920a95b.png"></p>
+</td><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 298.00px" src="img/56a2487ad9a6e96b.png"></p>
+</td></tr>
+</table>
+<p>カードの下の影を削除しました。</p>
+<aside class="special"><p>標高に関する注意事項:</p>
+<ul>
+<li>すべてのマテリアル デザイン サーフェスとコンポーネントには標高値があります。</li>
+<li>1 つのサーフェスが終了する場所と別のサーフェスが開始する場所の間の分割は、サーフェス エッジによって区別されます。</li>
+<li>サーフェス間の標高差は、背景を薄くしたり、背景を明るくしたり、影を付けたりして表現できます。</li>
+<li>通常、他のサーフェスの前にあるサーフェスには、より重要なコンテンツが含まれています。</li>
+</ul>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="シェイプを追加" duration="0">
+        <p>Shrine は、八角形または長方形の要素を定義するクールな幾何学的なスタイルを持っています. ホーム画面のカードと、ログイン画面のテキスト フィールドとボタンに、その形状のスタイリングを実装しましょう。</p>
+<h2 is-upgraded><strong>ログイン画面のテキスト フィールドの形状を変更する</strong></h2>
+<p><strong>app.dart</strong> で、次のファイルをインポートします。</p>
+<pre>import &#39;supplemental/cut_corners_border.dart&#39;;</pre>
+<p>引き続き <strong>app.dart</strong> で、テキスト フィールドの装飾テーマを変更して、角を切り取った境界線を使用します。</p>
+<pre>// TODO: Decorate the inputs (103)
+inputDecorationTheme: const InputDecorationTheme(
+  border: CutCornersBorder(),
+  focusedBorder: CutCornersBorder(
+    borderSide: BorderSide(
+      width: 2.0,
+      color: kShrineBrown900,
+    ),
+  ), 
+  floatingLabelStyle: TextStyle(
+    color: kShrineBrown900,
+  ),
+),</pre>
+<h2 is-upgraded><strong>ログイン画面のボタン形状を変更する</strong></h2>
+<p><strong>login.dart</strong> で、斜めの長方形の境界線を CANCEL ボタンに追加します。</p>
+<pre>TextButton(
+  child: const Text(&#39;CANCEL&#39;),
+  onPressed: () {
+    _usernameController.clear();
+    _passwordController.clear();
+  },
+  style: TextButton.styleFrom(
+    primary: Theme.of(context).colorScheme.secondary,
+    shape: const BeveledRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(7.0)),
+    ),
+  ),
+),</pre>
+<p>TextButton には目に見える形がないのに、なぜ境界線の形を追加するのでしょうか? そのため、リップル アニメーションは、タッチすると同じ形状にバインドされます。</p>
+<p>次に、同じ形状を NEXT ボタンに追加します。</p>
+<pre>ElevatedButton(
+  child: const Text(&#39;NEXT&#39;),
+  onPressed: () {
+    Navigator.pop(context);
+  },
+  style: ElevatedButton.styleFrom(
+    elevation: 8.0,
+    shape: const BeveledRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(7.0)),
+    ),
+  ),</pre>
+<p>すべてのボタンの形状を変更するには、<strong>app.dart</strong> で <strong>elevatedButtonTheme</strong> または <strong>textButtonTheme</strong> を使用することもできます。 それは学習者への課題として残されています!</p>
+<aside class="special"><p>形状に関する注意事項:</p>
+<ul>
+<li>形は、ブランドの視覚的表現に貢献できます。</li>
+<li>シェイプには、カーブとコーナーの角度、カーブとエッジの角度、およびコーナーの総数を調整できます。</li>
+<li>コンポーネントの形状がその使いやすさを妨げてはなりません!</li>
+</ul>
+</aside>
+<p>ホットリスタート。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Android</p>
+</td><td colspan="1" rowspan="1"><p>iOS</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 298.00px" src="img/27467bb637a23fe8.png"></p>
+</td><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 298.00px" src="img/1398edbc96107f59.png"></p>
+</td></tr>
+</table>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="レイアウトを変更する" duration="0">
+        <p>次に、レイアウトを変更して、さまざまな縦横比とサイズでカードを表示し、各カードが他のカードとは異なるように見えるようにします。</p>
+<h2 is-upgraded><strong>GridView を AsymmetricView に置き換える</strong></h2>
+<p>非対称レイアウト用のファイルは既に作成済みです。</p>
+<p><strong>home.dart</strong> に、次のインポートを追加します。</p>
+<pre>import &#39;supplemental/asymmetric_view.dart&#39;;</pre>
+<p><strong>_buildGridCards</strong> を削除し、<strong>body</strong> を置き換えます。</p>
+<pre>import &#39;supplemental/asymmetric_view.dart&#39;;</pre>
+<p>プロジェクトを保存します。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Android</p>
+</td><td colspan="1" rowspan="1"><p>iOS</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 298.00px" src="img/e5106e0d95d15a93.png"></p>
+</td><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 298.00px" src="img/d203e13476857cda.png"></p>
+</td></tr>
+</table>
+<p>現在、製品は織物にインスパイアされたパターンで水平にスクロールします。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="別のテーマを試す (オプション)" duration="0">
+        <p>色はブランドを表現する強力な方法であり、色のわずかな変更がユーザー エクスペリエンスに大きな影響を与える可能性があります。 これをテストするために、ブランドの配色が少し異なる場合に神社がどのように見えるかを見てみましょう.</p>
+<h2 is-upgraded><strong>色を変更する</strong></h2>
+<p><strong>colors.dart</strong> で、次の色を追加します。</p>
+<pre>const kShrinePurple = Color(0xFF5D1049);</pre>
+<p><strong>app.dart</strong> で、<strong>_buildShrineTheme()</strong> 関数を次のように変更します。</p>
+<pre>ThemeData _buildShrineTheme() {
+  final ThemeData base = ThemeData.light();
+  return base.copyWith(
+    colorScheme: base.colorScheme.copyWith(
+      primary: kShrinePurple,
+      secondary: kShrinePurple,
+      error: kShrineErrorRed,
+    ),
+    scaffoldBackgroundColor: kShrineSurfaceWhite,
+    textSelectionTheme: const TextSelectionThemeData(
+      selectionColor: kShrinePurple,
+    ),
+    inputDecorationTheme: const InputDecorationTheme(
+      border: CutCornersBorder(),
+      focusedBorder: CutCornersBorder(
+        borderSide: BorderSide(
+          width: 2.0,
+          color: kShrinePurple,
+        ),
+      ),
+      floatingLabelStyle: TextStyle(
+        color: kShrinePurple,
+      ),
+    ),
+  );
+}</pre>
+<p>ホットリスタート。 新しいテーマが表示されます。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Android</p>
+</td><td colspan="1" rowspan="1"><p>iOS</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 298.00px" src="img/d48e9095eb230292.png"></p>
+</td><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 298.00px" src="img/6d58e69e762f780f.png"></p>
+</td></tr>
+</table>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Android</p>
+</td><td colspan="1" rowspan="1"><p>iOS</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 298.00px" src="img/275a2ef7bc9ecde1.png"></p>
+</td><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 298.00px" src="img/9c703c1cf011b1e1.png"></p>
+</td></tr>
+</table>
+<p>結果は大きく異なります！ </p>
+<p><strong>app.dart</strong> の <strong>_buildShrineTheme</strong> をこのステップの前の状態に戻しましょう。 または、104 のスターター コードをダウンロードします。</p>
+<p><a href="https://github.com/material-components/material-components-flutter-codelabs/archive/104-starter_and_103-complete.zip" target="_blank">MDC-104 starter code</a></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="おめでとう！" duration="0">
+        <p>これで、デザイナーの設計仕様に似たアプリを作成できました。</p>
+<aside class="special"><p>完成した MDC-103 アプリは、104-starter_and_103-complete ブランチで入手できます。</p>
+<p>そのブランチのアプリに対してページのバージョンをテストできます。</p>
+</aside>
+<h2 is-upgraded><strong>次のステップ</strong></h2>
+<p>次の MDC コンポーネントを使用しました: テーマ、タイポグラフィ、標高、および形状。 MDC-Flutter ライブラリで、さらに多くのコンポーネントとサブシステムを調べることができます。</p>
+<p>supplemental のフォルダを調べて、水平方向にスクロールする非対称レイアウト グリッドをどのように作成したかを確認してください。</p>
+<p>計画中のアプリの設計に、MDC ライブラリにコンポーネントがない要素が含まれている場合はどうなりますか? <a href="https://codelabs.developers.google.com/codelabs/mdc-104-flutter" target="_blank">MDC-104: Material Design Advanced Components</a> では、MDC ライブラリを使用してカスタム コンポーネントを作成し、特定の外観を実現する方法を示します。</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>
