@@ -541,7 +541,9 @@ inputDecorationTheme: const InputDecorationTheme(
 <p><strong>home.dart</strong> に、次のインポートを追加します。</p>
 <pre>import &#39;supplemental/asymmetric_view.dart&#39;;</pre>
 <p><strong>_buildGridCards</strong> を削除し、<strong>body</strong> を置き換えます。</p>
-<pre>import &#39;supplemental/asymmetric_view.dart&#39;;</pre>
+<pre>body: AsymmetricView(
+  products: ProductsRepository.loadProducts(Category.all),
+),</pre>
 <p>プロジェクトを保存します。</p>
 <table>
 <tr><td colspan="1" rowspan="1"><p>Android</p>
